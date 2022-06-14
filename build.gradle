@@ -15,7 +15,7 @@ sourceSets.main {
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: "${project.property 'minecraft_version'}"
+    mappings channel: 'official', version: "${project(':CreativeCore').property 'minecraft_version'}"
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -49,7 +49,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.property 'minecraft_version'}-${project.property 'forge_version'}"
+    minecraft "net.minecraftforge:forge:${project(':CreativeCore').property 'minecraft_version'}-${project(':CreativeCore').property 'forge_version'}"
 	
 	// Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
@@ -57,7 +57,7 @@ dependencies {
 
 jar {
   duplicatesStrategy = DuplicatesStrategy.INCLUDE
-  archiveFileName.set(project.modname + "_FORGE_v" + project(':CreativeCore').version + "_mc" + project.minecraft_version + ".jar")
+  archiveFileName.set(project.modname + "_FORGE_v" + project(':CreativeCore').version + "_mc" + project(':CreativeCore').minecraft_version + ".jar")
 }
 
 mixin {
@@ -65,7 +65,7 @@ mixin {
     add sourceSets.main, 'creativecore.mixins.refmap.json'
      
     config 'creativecore.mixins.json'
-    config 'creativecore.fabric.mixins.json'
+    config 'creativecore.forge.mixins.json'
 }
 
 // Example configuration to allow publishing using the maven-publish plugin
