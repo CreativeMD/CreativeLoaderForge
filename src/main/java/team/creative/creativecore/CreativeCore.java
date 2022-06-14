@@ -78,7 +78,7 @@ public class CreativeCore {
     
     public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
             .register("config", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.SERVER)));
-    public static final GuiCreatorBasic CLIENT_CONFIG_OPEN = GuiCreator
+    public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
             .register("clientconfig", new GuiCreatorBasic((player, nbt) -> new ClientSyncGuiLayer(CreativeConfigRegistry.ROOT)));
     
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_REGISTRY, MODID);

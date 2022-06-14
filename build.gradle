@@ -65,6 +65,7 @@ mixin {
     add sourceSets.main, 'creativecore.mixins.refmap.json'
      
     config 'creativecore.mixins.json'
+    config 'creativecore.fabric.mixins.json'
 }
 
 // Example configuration to allow publishing using the maven-publish plugin
