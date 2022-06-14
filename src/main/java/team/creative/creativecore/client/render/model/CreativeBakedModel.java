@@ -59,7 +59,6 @@ public class CreativeBakedModel implements BakedModel {
         }
     };
     
-    @SuppressWarnings("deprecation")
     public static TextureAtlasSprite getWoodenTexture() {
         if (woodenTexture == null)
             woodenTexture = mc.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation("minecraft", "blocks/planks_oak"));
