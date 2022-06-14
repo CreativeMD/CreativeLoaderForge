@@ -7,8 +7,6 @@ plugins {
 
 group= "team.creative" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 
-project.evaluationDependsOn(":CreativeCore")
-
 sourceSets.main {
     java.srcDirs += project(':CreativeCore').sourceSets.main.java.srcDirs
     resources.srcDirs += project(':CreativeCore').sourceSets.main.resources.srcDirs
@@ -55,8 +53,6 @@ dependencies {
 	
 	// Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-	
-    implementation project(':CreativeCore')
 }
 
 jar {
