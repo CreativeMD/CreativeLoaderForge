@@ -96,9 +96,9 @@ jar {
         attributes([
             "Specification-Title": project.modname,
             "Specification-Vendor": "CreativeMD",
-            "Specification-Version": project.version,
+            "Specification-Version": project(':CreativeCore').version,
             "Implementation-Title": project.name,
-            "Implementation-Version"  : project.version,
+            "Implementation-Version"  : project(':CreativeCore').version,
             "Implementation-Vendor": "CreativeMD",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
