@@ -4,11 +4,13 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -133,6 +135,11 @@ public class CreativeForgeLoader implements ICreativeLoader {
     @Override
     public float getFluidViscosityMultiplier(Fluid fluid, Level level) {
         return fluid.getAttributes().getViscosity() / 1000;
+    }
+    
+    @Override
+    public void registerKeybind(Supplier supplier) {
+        ClientRegistry.registerKeyBinding((KeyMapping) supplier.get());
     }
     
 }

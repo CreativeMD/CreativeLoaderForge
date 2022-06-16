@@ -58,6 +58,8 @@ import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
 import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
+import team.creative.creativecore.common.loader.ForgeLoaderUtils;
+import team.creative.creativecore.common.loader.ILoaderUtils;
 import team.creative.creativecore.common.network.CreativeNetwork;
 import team.creative.creativecore.common.util.argument.StringArrayArgumentType;
 
@@ -65,6 +67,7 @@ import team.creative.creativecore.common.util.argument.StringArrayArgumentType;
 public class CreativeCore {
     
     private static final ICreativeLoader LOADER = new CreativeForgeLoader();
+    private static final ILoaderUtils UTILS = new ForgeLoaderUtils();
     public static final String MODID = "creativecore";
     public static final Logger LOGGER = LogManager.getLogger(CreativeCore.MODID);
     public static final CreativeCoreConfig CONFIG = new CreativeCoreConfig();
@@ -148,5 +151,9 @@ public class CreativeCore {
     
     public static ICreativeLoader loader() {
         return LOADER;
+    }
+    
+    public static ILoaderUtils utils() {
+        return UTILS;
     }
 }
