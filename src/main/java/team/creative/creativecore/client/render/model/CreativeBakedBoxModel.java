@@ -43,7 +43,7 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
         for (int i = 0; i < boxes.size(); i++) {
             RenderBox box = boxes.get(i);
             
-            if (!box.renderSide(side))
+            if (!box.shouldRenderFace(side))
                 continue;
             
             BlockState state = Blocks.AIR.defaultBlockState();
