@@ -49,7 +49,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project(':CreativeCore').property 'minecraft_version'}-${project(':CreativeCore').property 'forge_version'}"
+    minecraft "net.minecraftforge:forge:${project.property 'minecraft_version'}-${project.property 'forge_version'}"
 	
 	// Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
