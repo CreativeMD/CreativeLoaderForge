@@ -81,10 +81,10 @@ public class CreativeCoreClient {
         colors.register(ITEM_COLOR, item);
     }
     
-    public static float getDeltaFrameTime() {
+    public static float getFrameTime() {
         if (mc.isPaused())
             return 1.0F;
-        return mc.getDeltaFrameTime();
+        return mc.getFrameTime();
     }
     
     @SubscribeEvent
