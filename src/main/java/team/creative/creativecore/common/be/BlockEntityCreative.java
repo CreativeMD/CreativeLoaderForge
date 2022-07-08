@@ -44,4 +44,8 @@ public abstract class BlockEntityCreative extends BlockEntity {
         return saveWithFullMetadata();
     }
     
+    public void markDirty() {
+        level.blockEntityChanged(worldPosition);
+    }
+    
 }
