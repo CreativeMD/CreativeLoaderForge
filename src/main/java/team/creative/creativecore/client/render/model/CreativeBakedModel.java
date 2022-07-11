@@ -9,7 +9,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -87,10 +86,10 @@ public class CreativeBakedModel implements BakedModel {
     }
     
     @Override
-    public BakedModel handlePerspective(TransformType cameraTransformType, PoseStack poseStack) {
+    public BakedModel applyTransform(ItemTransforms.TransformType transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
         if (renderedStack != null)
-            item.applyCustomOpenGLHackery(poseStack, renderedStack, cameraTransformType);
-        return BakedModel.super.handlePerspective(cameraTransformType, poseStack);
+            item.applyCustomOpenGLHackery(poseStack, renderedStack, transformType);
+        return BakedModel.super.applyTransform(transformType, poseStack, applyLeftHandTransform);
     }
     
 }

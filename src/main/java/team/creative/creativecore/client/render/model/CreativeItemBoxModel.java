@@ -19,8 +19,8 @@ public abstract class CreativeItemBoxModel extends CreativeItemModel {
     
     public static final Minecraft mc = Minecraft.getInstance();
     
-    public static final RenderType[] STANDARD = new RenderType[] { Sheets.cutoutBlockSheet() };
-    public static final RenderType[] ADVANCED = new RenderType[] { Sheets.cutoutBlockSheet(), Sheets.translucentCullBlockSheet() };
+    public static final List<RenderType> STANDARD = List.of(Sheets.cutoutBlockSheet());
+    public static final List<RenderType> ADVANCED = List.of(Sheets.cutoutBlockSheet(), Sheets.translucentCullBlockSheet());
     
     public static final CreativeItemBoxModel EMPTY = new CreativeItemBoxModel(new ModelResourceLocation("minecraft", "stone", "inventory")) {
         
@@ -36,7 +36,7 @@ public abstract class CreativeItemBoxModel extends CreativeItemModel {
     
     public abstract List<? extends RenderBox> getBoxes(ItemStack stack, RenderType layer);
     
-    public RenderType[] getLayers(ItemStack stack, boolean fabulous) {
+    public List<RenderType> getLayers(ItemStack stack, boolean fabulous) {
         if (hasTranslucentLayer(stack))
             return ADVANCED;
         return STANDARD;

@@ -8,9 +8,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenEvent.BackgroundDrawnEvent;
+import net.minecraftforge.client.event.ContainerScreenEvent.Render.Background;
 import net.minecraftforge.common.MinecraftForge;
 import team.creative.creativecore.client.render.GuiRenderHelper;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -54,7 +55,8 @@ public interface IGuiIntegratedParent extends IGuiParent {
             if (i == layers.size() - 1) {
                 if (layer.hasGrayBackground())
                     GuiRenderHelper.gradientRect(matrixStack, 0, 0, width, height, -1072689136, -804253680);
-                MinecraftForge.EVENT_BUS.post(new BackgroundDrawnEvent(screen, matrixStack));
+                if (screen instanceof AbstractContainerScreen)
+                    MinecraftForge.EVENT_BUS.post(new Background((AbstractContainerScreen<?>) screen, matrixStack, mouseX, mouseY));
             }
             
             matrixStack.pushPose();

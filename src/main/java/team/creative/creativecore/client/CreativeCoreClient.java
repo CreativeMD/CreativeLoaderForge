@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
@@ -21,15 +22,19 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.ConfigGuiHandler.ConfigGuiFactory;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelEvent.RegisterAdditional;
+import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.network.NetworkConstants;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.Side;
 import team.creative.creativecore.client.render.model.CreativeBlockModel;
@@ -55,9 +60,16 @@ public class CreativeCoreClient {
     
     private static final ItemColor ITEM_COLOR = (stack, tint) -> tint;
     
+    public static final List<KeyMapping> KEYS_TO_REGISTER = new ArrayList<>();
+    
+    public static void load(IEventBus bus) {
+        bus.addListener(CreativeCoreClient::init);
+        bus.addListener(CreativeCoreClient::modelRegister);
+        bus.addListener(CreativeCoreClient::modelEvent);
+    }
+    
     public static void registerModel(ModelResourceLocation location) {
         MODELS_TO_LOAD.add(location);
-        ForgeModelBakery.addSpecialModel(location);
     }
     
     public static void registerClientConfig(String modid) {
@@ -100,6 +112,9 @@ public class CreativeCoreClient {
     }
     
     public static void init(FMLClientSetupEvent event) {
+        MinecraftForge.EVENT_BUS.register(CreativeCoreClient.class);
+        ModLoadingContext.get()
+                .registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
         GuiStyle.reload();
         Minecraft minecraft = Minecraft.getInstance();
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) minecraft.getResourceManager();
@@ -126,8 +141,16 @@ public class CreativeCoreClient {
         });
     }
     
-    public static void modelEvent(ModelRegistryEvent event) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(CreativeCore.MODID, "rendered"), new CreativeModelLoader());
+    public static void modelRegister(RegisterAdditional event) {
+        MODELS_TO_LOAD.forEach(event::register);
+    }
+    
+    public static void modelEvent(RegisterGeometryLoaders event) {
+        event.register("rendered", new CreativeModelLoader());
+    }
+    
+    public static void registerKeys(RegisterKeyMappingsEvent event) {
+        KEYS_TO_REGISTER.forEach(event::register);
     }
     
     @SubscribeEvent

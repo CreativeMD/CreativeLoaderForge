@@ -22,18 +22,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.IExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.network.NetworkConstants;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
@@ -95,8 +90,7 @@ public class CreativeCore {
         COMMAND_ARGUMENT_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         
         MinecraftForge.EVENT_BUS.addListener(this::server);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::client));
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(CreativeCoreClient::modelEvent));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreativeCoreClient.load(FMLJavaModLoadingContext.get().getModEventBus()));
         
         GUI_CONTAINER = new MenuType<>(null) {
             @Override
@@ -113,14 +107,6 @@ public class CreativeCore {
     
     public void registerMenus(RegisterEvent event) {
         event.register(Keys.CONTAINER_TYPES, (x) -> x.register("container", GUI_CONTAINER));
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    private void client(final FMLClientSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(CreativeCoreClient.class);
-        CreativeCoreClient.init(event);
-        ModLoadingContext.get()
-                .registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
     }
     
     private void server(final ServerStartingEvent event) {

@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -29,6 +28,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkConstants;
 import team.creative.creativecore.client.ClientLoader;
+import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.CommonLoader;
 
 public class CreativeForgeLoader implements ICreativeLoader {
@@ -138,8 +138,8 @@ public class CreativeForgeLoader implements ICreativeLoader {
     }
     
     @Override
-    public void registerKeybind(Supplier supplier) {
-        ClientRegistry.registerKeyBinding((KeyMapping) supplier.get());
+    public void registerKeybind(Supplier<KeyMapping> supplier) {
+        CreativeCoreClient.KEYS_TO_REGISTER.add(supplier.get());
     }
     
 }

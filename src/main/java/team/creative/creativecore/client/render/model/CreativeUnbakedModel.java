@@ -15,14 +15,14 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
+import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
+import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import team.creative.creativecore.client.CreativeCoreClient;
 
-public record CreativeUnbakedModel(ResourceLocation item, ResourceLocation block) implements IModelGeometry<CreativeUnbakedModel> {
+public record CreativeUnbakedModel(ResourceLocation item, ResourceLocation block) implements IUnbakedGeometry<CreativeUnbakedModel> {
     
     @Override
-    public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
         CreativeBlockModel renderBlock = CreativeCoreClient.BLOCK_MODEL_TYPES.get(block);
         CreativeItemModel renderItem = CreativeCoreClient.ITEM_MODEL_TYPES.get(item);
         if (renderBlock == null && renderItem == null)
@@ -33,7 +33,7 @@ public record CreativeUnbakedModel(ResourceLocation item, ResourceLocation block
     }
     
     @Override
-    public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return Collections.EMPTY_LIST;
     }
     

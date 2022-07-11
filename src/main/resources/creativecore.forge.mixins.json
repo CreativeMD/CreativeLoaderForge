@@ -6,7 +6,8 @@
     "mixins": [
     ],
     "client": [
-        "BlockInfoMixin"
+        "ForgeModelBlockRendererAccessor",
+        "QuadLighterMixin"
     ],
     "minVersion": "0.8"
 }

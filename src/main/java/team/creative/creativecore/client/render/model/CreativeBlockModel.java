@@ -10,14 +10,14 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import team.creative.creativecore.client.render.box.RenderBox;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class CreativeBlockModel {
     
-    public abstract List<? extends RenderBox> getBoxes(BlockState state, IModelData data, RandomSource source);
+    public abstract List<? extends RenderBox> getBoxes(BlockState state, ModelData data, RandomSource source);
     
-    public abstract @NotNull IModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull IModelData modelData);
+    public abstract @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData);
     
 }

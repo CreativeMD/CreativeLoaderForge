@@ -7,8 +7,6 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
@@ -24,9 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.mc.ColorUtils;
@@ -78,39 +74,29 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
     };
     
     @Override
-    public boolean isLayered() {
-        return ((CreativeItemBoxModel) item).hasTranslucentLayer(renderedStack);
+    public List<RenderType> getRenderTypes(ItemStack itemStack, boolean fabulous) {
+        return ((CreativeItemBoxModel) item).getLayers(itemStack, fabulous);
     }
     
     @Override
-    public List<com.mojang.datafixers.util.Pair<BakedModel, RenderType>> getLayerModels(ItemStack itemStack, boolean fabulous) {
-        RenderType[] itemLayers = ((CreativeItemBoxModel) item).getLayers(itemStack, fabulous);
-        List<com.mojang.datafixers.util.Pair<BakedModel, RenderType>> layers = new ArrayList<>(itemLayers.length);
-        for (int i = 0; i < itemLayers.length; i++)
-            layers.add(new Pair<BakedModel, RenderType>(this, itemLayers[i]));
-        return layers;
-    }
-    
-    @Override
-    public @NotNull IModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull IModelData modelData) {
+    public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
         if (block != null)
             return block.getModelData(level, pos, state, modelData);
         return modelData;
     }
     
     @Override
-    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, @NotNull RandomSource rand, @NotNull IModelData extraData) {
+    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType layer) {
         Facing facing = Facing.get(direction);
         if (state != null) {
             if (block != null)
-                return compileBoxes(block.getBoxes(state, extraData, rand), facing, MinecraftForgeClient.getRenderType(), rand, false);
+                return compileBoxes(block.getBoxes(state, extraData, rand), facing, layer, rand, false);
             return Collections.EMPTY_LIST;
         }
         
         if (renderedStack == null || renderedStack.isEmpty())
             return Collections.EMPTY_LIST;
         
-        RenderType layer = MinecraftForgeClient.getRenderType();
         List<BakedQuad> cached = ((CreativeItemBoxModel) item).getCachedModel(facing, layer, renderedStack, false);
         if (cached != null)
             return cached;
@@ -122,12 +108,6 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
         }
         
         return Collections.EMPTY_LIST;
-    }
-    
-    @Override
-    @Deprecated
-    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource rand) {
-        return getQuads(state, direction, rand, EmptyModelData.INSTANCE);
     }
     
 }
