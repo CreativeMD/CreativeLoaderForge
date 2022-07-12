@@ -2,10 +2,14 @@ package team.creative.creativecore.client.render.model;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -17,6 +21,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 
 public class CreativeBakedModel implements BakedModel {
     
@@ -46,8 +51,8 @@ public class CreativeBakedModel implements BakedModel {
     }
     
     @Override
-    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource source) {
-        return get().getQuads(state, direction, source);
+    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData data, @Nullable RenderType renderType) {
+        return get().getQuads(state, side, rand, data, renderType);
     }
     
     @Override
@@ -90,6 +95,11 @@ public class CreativeBakedModel implements BakedModel {
         if (renderedStack != null)
             item.applyCustomOpenGLHackery(poseStack, renderedStack, transformType);
         return BakedModel.super.applyTransform(transformType, poseStack, applyLeftHandTransform);
+    }
+    
+    @Override
+    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource source) {
+        return get().getQuads(state, direction, source);
     }
     
 }

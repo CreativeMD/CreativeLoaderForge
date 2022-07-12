@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.resources.model.BakedModel;
@@ -108,6 +109,12 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
         }
         
         return Collections.EMPTY_LIST;
+    }
+    
+    @Override
+    @Deprecated
+    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource rand) {
+        return getQuads(state, direction, rand, ModelData.EMPTY, Sheets.cutoutBlockSheet());
     }
     
 }
