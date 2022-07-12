@@ -27,6 +27,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.level.ChunkEvent;
 
 public class FakeChunkCache extends ChunkSource {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -61,7 +62,7 @@ public class FakeChunkCache extends ChunkSource {
             int i = this.storage.getIndex(p_104456_, p_104457_);
             LevelChunk levelchunk = this.storage.getChunk(i);
             if (isValidChunk(levelchunk, p_104456_, p_104457_)) {
-                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkEvent.Unload(levelchunk));
+                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new ChunkEvent.Unload(levelchunk));
                 this.storage.replace(i, levelchunk, (LevelChunk) null);
             }
             
@@ -104,7 +105,7 @@ public class FakeChunkCache extends ChunkSource {
             }
             
             this.level.onChunkLoaded(chunkpos);
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkEvent.Load(levelchunk));
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new ChunkEvent.Load(levelchunk));
             return levelchunk;
         }
     }

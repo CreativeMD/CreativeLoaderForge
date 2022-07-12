@@ -106,7 +106,7 @@ public class CreativeCore {
     }
     
     public void registerMenus(RegisterEvent event) {
-        event.register(Keys.CONTAINER_TYPES, (x) -> x.register("container", GUI_CONTAINER));
+        event.register(Keys.MENU_TYPES, (x) -> x.register("container", GUI_CONTAINER));
     }
     
     private void server(final ServerStartingEvent event) {

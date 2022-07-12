@@ -17,6 +17,7 @@ import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.WritableLevelData;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import team.creative.creativecore.client.render.level.IRenderChunkSupplier;
 
 public abstract class CreativeClientLevel extends CreativeLevel {
@@ -92,7 +93,7 @@ public abstract class CreativeClientLevel extends CreativeLevel {
             CreativeClientLevel.this.players.remove(entity);
             
             entity.onRemovedFromWorld();
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.EntityLeaveWorldEvent(entity, CreativeClientLevel.this));
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new EntityLeaveLevelEvent(entity, CreativeClientLevel.this));
         }
         
         @Override

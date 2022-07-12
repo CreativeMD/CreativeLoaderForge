@@ -13,10 +13,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.IExtensionPoint;
@@ -87,29 +87,29 @@ public class CreativeForgeLoader implements ICreativeLoader {
     
     @Override
     public void registerLevelTick(Consumer<ServerLevel> consumer) {
-        MinecraftForge.EVENT_BUS.addListener((WorldTickEvent x) -> {
+        MinecraftForge.EVENT_BUS.addListener((LevelTickEvent x) -> {
             if (x.phase == Phase.END)
-                consumer.accept((ServerLevel) x.world);
+                consumer.accept((ServerLevel) x.level);
         });
     }
     
     @Override
     public void registerLevelTickStart(Consumer<ServerLevel> consumer) {
-        MinecraftForge.EVENT_BUS.addListener((WorldTickEvent x) -> {
+        MinecraftForge.EVENT_BUS.addListener((LevelTickEvent x) -> {
             if (x.phase == Phase.START)
-                consumer.accept((ServerLevel) x.world);
+                consumer.accept((ServerLevel) x.level);
         });
         
     }
     
     @Override
     public void registerUnloadLevel(Consumer<LevelAccessor> consumer) {
-        MinecraftForge.EVENT_BUS.addListener((WorldEvent.Unload x) -> consumer.accept(x.getWorld()));
+        MinecraftForge.EVENT_BUS.addListener((LevelEvent.Unload x) -> consumer.accept(x.getLevel()));
     }
     
     @Override
     public void registerLoadLevel(Consumer<LevelAccessor> consumer) {
-        MinecraftForge.EVENT_BUS.addListener((WorldEvent.Load x) -> consumer.accept(x.getWorld()));
+        MinecraftForge.EVENT_BUS.addListener((LevelEvent.Load x) -> consumer.accept(x.getLevel()));
     }
     
     @Override

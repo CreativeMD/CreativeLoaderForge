@@ -24,6 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.level.LevelEvent;
 import team.creative.creativecore.common.util.math.matrix.ChildVecOrigin;
 import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.creativecore.common.util.math.matrix.VecOrigin;
@@ -43,7 +44,7 @@ public class SubServerLevel extends CreativeServerLevel implements ISubLevel {
         super(parent.getServer(), (WritableLevelData) parent.getLevelData(), radius, parent.getProfilerSupplier(), parent.isDebug(), 0);
         this.parentLevel = parent;
         this.gatherCapabilities();
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.WorldEvent.Load(this));
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(this));
     }
     
     @Override

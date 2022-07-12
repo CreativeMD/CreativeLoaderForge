@@ -30,8 +30,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.Side;
@@ -65,9 +65,9 @@ public class ConfigEventHandler {
     
     @SubscribeEvent
     public void playerLoggedIn(PlayerLoggedInEvent event) {
-        if (!event.getPlayer().getServer().isSingleplayer() || !isOwner(event.getPlayer().getServer())) {
-            CreativeCore.NETWORK.sendToClient(new ConfigurationClientPacket(CreativeConfigRegistry.ROOT), (ServerPlayer) event.getPlayer());
-            CreativeCore.NETWORK.sendToClient(new ConfigurationPacket(CreativeConfigRegistry.ROOT, false), (ServerPlayer) event.getPlayer());
+        if (!event.getEntity().getServer().isSingleplayer() || !isOwner(event.getEntity().getServer())) {
+            CreativeCore.NETWORK.sendToClient(new ConfigurationClientPacket(CreativeConfigRegistry.ROOT), (ServerPlayer) event.getEntity());
+            CreativeCore.NETWORK.sendToClient(new ConfigurationPacket(CreativeConfigRegistry.ROOT, false), (ServerPlayer) event.getEntity());
         }
     }
     
@@ -77,8 +77,8 @@ public class ConfigEventHandler {
     }
     
     @SubscribeEvent
-    public void loadWorld(Load event) {
-        if (event.getWorld().isClientSide())
+    public void loadLevel(LevelEvent.Load event) {
+        if (event.getLevel().isClientSide())
             load(Side.CLIENT);
     }
     
