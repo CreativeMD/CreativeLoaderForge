@@ -11,7 +11,6 @@ import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.MenuScreens.ScreenConstructor;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +21,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory;
-import net.minecraftforge.client.event.ModelEvent.RegisterAdditional;
 import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -56,7 +54,6 @@ public class CreativeCoreClient {
     private static Minecraft mc = Minecraft.getInstance();
     public static final LocatedHandlerRegistry<CreativeBlockModel> BLOCK_MODEL_TYPES = new LocatedHandlerRegistry<>(null);
     public static final LocatedHandlerRegistry<CreativeItemModel> ITEM_MODEL_TYPES = new LocatedHandlerRegistry<>(null);
-    private static final List<ModelResourceLocation> MODELS_TO_LOAD = new ArrayList<>();
     
     private static final ItemColor ITEM_COLOR = (stack, tint) -> tint;
     
@@ -64,12 +61,7 @@ public class CreativeCoreClient {
     
     public static void load(IEventBus bus) {
         bus.addListener(CreativeCoreClient::init);
-        bus.addListener(CreativeCoreClient::modelRegister);
         bus.addListener(CreativeCoreClient::modelEvent);
-    }
-    
-    public static void registerModel(ModelResourceLocation location) {
-        MODELS_TO_LOAD.add(location);
     }
     
     public static void registerClientConfig(String modid) {
@@ -139,10 +131,6 @@ public class CreativeCoreClient {
                 return new ContainerScreenIntegration(container, inventory);
             }
         });
-    }
-    
-    public static void modelRegister(RegisterAdditional event) {
-        MODELS_TO_LOAD.forEach(event::register);
     }
     
     public static void modelEvent(RegisterGeometryLoaders event) {
