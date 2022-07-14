@@ -43,10 +43,10 @@ import team.creative.creativecore.common.config.holder.CreativeConfigRegistry;
 import team.creative.creativecore.common.config.sync.ConfigurationChangePacket;
 import team.creative.creativecore.common.config.sync.ConfigurationClientPacket;
 import team.creative.creativecore.common.config.sync.ConfigurationPacket;
+import team.creative.creativecore.common.gui.creator.GuiCreator;
+import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
+import team.creative.creativecore.common.gui.creator.GuiCreator.GuiCreatorBasic;
 import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
-import team.creative.creativecore.common.gui.handler.GuiCreator;
-import team.creative.creativecore.common.gui.handler.GuiCreator.GuiCreatorBasic;
-import team.creative.creativecore.common.gui.handler.GuiLayerHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
@@ -130,9 +130,9 @@ public class CreativeCore {
                 .empty(), true, false, false, false, 1, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, BuiltinDimensionTypes.OVERWORLD_EFFECTS, 0.0F, new DimensionType.MonsterSettings(false, false, UniformInt
                         .of(0, 0), 0)));
         
-        GuiLayerHandler.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
-        GuiLayerHandler.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
-        GuiLayerHandler.REGISTRY.register("dialog", GuiDialogHandler.DIALOG_HANDLER);
+        GuiLayerCreator.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
+        GuiLayerCreator.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
+        GuiLayerCreator.REGISTRY.register("dialog", GuiDialogHandler.DIALOG_HANDLER);
     }
     
     public static ICreativeLoader loader() {
