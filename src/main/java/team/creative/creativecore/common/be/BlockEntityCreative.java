@@ -46,6 +46,7 @@ public abstract class BlockEntityCreative extends BlockEntity {
     
     public void markDirty() {
         level.blockEntityChanged(worldPosition);
+        level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
     }
     
 }
