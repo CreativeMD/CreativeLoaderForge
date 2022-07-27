@@ -50,7 +50,13 @@ public class CreativeNetwork {
         }, (buffer) -> {
             return handler.read(buffer);
         }, (message, ctx) -> {
-            ctx.get().enqueueWork(() -> message.execute(ctx.get().getSender() == null ? getClientPlayer() : ctx.get().getSender()));
+            ctx.get().enqueueWork(() -> {
+                try {
+                    message.execute(ctx.get().getSender() == null ? getClientPlayer() : ctx.get().getSender());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
             ctx.get().setPacketHandled(true);
         });
         packetTypes.put(classType, handler);
