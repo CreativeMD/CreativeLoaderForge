@@ -1,6 +1,7 @@
 package team.creative.creativecore.client.render.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,11 +33,10 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
     
     public static Minecraft mc = Minecraft.getInstance();
     
-    public static List<BakedQuad> compileBoxes(List<? extends RenderBox> boxes, Facing side, RenderType layer, RandomSource rand, boolean item) {
+    public static List<BakedQuad> compileBoxes(List<? extends RenderBox> boxes, Facing side, RenderType layer, RandomSource rand, boolean item, List<BakedQuad> baked) {
         if (side == null)
             return Collections.EMPTY_LIST;
         
-        List<BakedQuad> baked = new ArrayList<>();
         for (int i = 0; i < boxes.size(); i++) {
             RenderBox box = boxes.get(i);
             
@@ -58,11 +58,27 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
         return baked;
     }
     
+    private final List<BakedModel> both;
+    private final CreativeBakedBoxModelTranslucent pairModel;
     public CreativeBlockModel block;
     
     public CreativeBakedBoxModel(ModelResourceLocation location, CreativeItemBoxModel item, CreativeBlockModel block) {
         super(location, item);
         this.block = block;
+        this.pairModel = new CreativeBakedBoxModelTranslucent(location, item, block);
+        this.both = Arrays.asList(this, pairModel);
+    }
+    
+    CreativeBakedBoxModel(ModelResourceLocation location, CreativeItemBoxModel item, CreativeBlockModel block, boolean outside) {
+        super(location, item);
+        this.block = block;
+        if (outside) {
+            this.pairModel = new CreativeBakedBoxModelTranslucent(location, item, block);
+            this.both = Arrays.asList(this, pairModel);
+        } else {
+            this.pairModel = null;
+            this.both = null;
+        }
     }
     
     public ItemOverrides customOverride = new ItemOverrides() {
@@ -75,8 +91,12 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
     };
     
     @Override
-    public List<RenderType> getRenderTypes(ItemStack itemStack, boolean fabulous) {
-        return ((CreativeItemBoxModel) item).getLayers(itemStack, fabulous);
+    public List<BakedModel> getRenderPasses(ItemStack itemStack, boolean fabulous) {
+        if (((CreativeItemBoxModel) item).hasTranslucentLayer(itemStack)) {
+            pairModel.renderedStack = renderedStack;
+            return both;
+        }
+        return super.getRenderPasses(itemStack, fabulous);
     }
     
     @Override
@@ -88,27 +108,38 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
     
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType layer) {
+        
         Facing facing = Facing.get(direction);
         if (state != null) {
             if (block != null)
-                return compileBoxes(block.getBoxes(state, extraData, rand), facing, layer, rand, false);
+                return compileBoxes(block.getBoxes(state, extraData, rand), facing, layer, rand, false, new ArrayList<>());
             return Collections.EMPTY_LIST;
         }
         
-        if (renderedStack == null || renderedStack.isEmpty())
+        if (renderedStack == null || renderedStack.isEmpty() || direction != null)
             return Collections.EMPTY_LIST;
         
-        List<BakedQuad> cached = ((CreativeItemBoxModel) item).getCachedModel(facing, layer, renderedStack, false);
-        if (cached != null)
-            return cached;
-        List<? extends RenderBox> boxes = ((CreativeItemBoxModel) item).getBoxes(renderedStack, layer);
-        if (boxes != null) {
-            cached = compileBoxes(boxes, facing, layer, rand, true);
-            ((CreativeItemBoxModel) item).saveCachedModel(facing, layer, cached, renderedStack, false);
-            return cached;
+        try {
+            List<BakedQuad> cached = ((CreativeItemBoxModel) item).getCachedModel(translucent(), renderedStack, false);
+            if (cached != null)
+                return cached;
+            List<? extends RenderBox> boxes = ((CreativeItemBoxModel) item).getBoxes(renderedStack, translucent());
+            if (boxes != null) {
+                cached = new ArrayList<>();
+                for (int i = 0; i < Facing.VALUES.length; i++)
+                    compileBoxes(boxes, Facing.VALUES[i], layer, rand, true, cached);
+                ((CreativeItemBoxModel) item).saveCachedModel(translucent(), cached, renderedStack, false);
+                return cached;
+            }
+            
+            return Collections.EMPTY_LIST;
+        } finally {
+            renderedStack = null;
         }
-        
-        return Collections.EMPTY_LIST;
+    }
+    
+    public boolean translucent() {
+        return false;
     }
     
     @Override
