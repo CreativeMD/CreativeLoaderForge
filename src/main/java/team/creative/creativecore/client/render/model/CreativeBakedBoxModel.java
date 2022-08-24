@@ -55,6 +55,11 @@ public class CreativeBakedBoxModel extends CreativeBakedModel {
             
             baked.addAll(box.getBakedQuad(null, null, box.getOffset(), state, blockModel, side, layer, rand, true, defaultColor));
         }
+        if (item)
+            for (BakedQuad quad : baked)
+                if (quad instanceof CreativeBakedQuad c)
+                    c.updateAlpha();
+                
         return baked;
     }
     

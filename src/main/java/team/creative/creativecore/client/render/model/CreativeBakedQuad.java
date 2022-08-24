@@ -2,7 +2,9 @@ package team.creative.creativecore.client.render.model;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.core.Direction;
+import net.minecraftforge.client.model.IQuadTransformer;
 import team.creative.creativecore.client.render.box.RenderBox;
+import team.creative.creativecore.common.util.mc.ColorUtils;
 
 public class CreativeBakedQuad extends BakedQuad {
     
@@ -24,6 +26,16 @@ public class CreativeBakedQuad extends BakedQuad {
         for (int i = 0; i < array.length; i++)
             newarray[i] = array[i];
         return newarray;
+    }
+    
+    public void updateAlpha() {
+        int alpha = ColorUtils.alpha(cube.color);
+        if (alpha == 255)
+            return;
+        for (int k = 0; k < 4; k++) {
+            int index = k * IQuadTransformer.STRIDE + IQuadTransformer.COLOR;
+            getVertices()[index] = ColorUtils.setAlpha(getVertices()[index], alpha);
+        }
     }
     
 }
