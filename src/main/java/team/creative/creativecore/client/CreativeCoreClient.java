@@ -1,11 +1,7 @@
 package team.creative.creativecore.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
@@ -23,7 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory;
 import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -56,8 +51,6 @@ public class CreativeCoreClient {
     public static final LocatedHandlerRegistry<CreativeItemModel> ITEM_MODEL_TYPES = new LocatedHandlerRegistry<>(null);
     
     private static final ItemColor ITEM_COLOR = (stack, tint) -> tint;
-    
-    public static final List<KeyMapping> KEYS_TO_REGISTER = new ArrayList<>();
     
     public static void load(IEventBus bus) {
         bus.addListener(CreativeCoreClient::init);
@@ -135,10 +128,6 @@ public class CreativeCoreClient {
     
     public static void modelEvent(RegisterGeometryLoaders event) {
         event.register("rendered", new CreativeModelLoader());
-    }
-    
-    public static void registerKeys(RegisterKeyMappingsEvent event) {
-        KEYS_TO_REGISTER.forEach(event::register);
     }
     
     @SubscribeEvent

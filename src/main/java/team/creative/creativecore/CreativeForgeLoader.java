@@ -4,7 +4,10 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -28,7 +31,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkConstants;
 import team.creative.creativecore.client.ClientLoader;
-import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.CommonLoader;
 
 public class CreativeForgeLoader implements ICreativeLoader {
@@ -139,7 +141,7 @@ public class CreativeForgeLoader implements ICreativeLoader {
     
     @Override
     public void registerKeybind(Supplier<KeyMapping> supplier) {
-        CreativeCoreClient.KEYS_TO_REGISTER.add(supplier.get());
+        Minecraft.getInstance().options.keyMappings = ArrayUtils.add(Minecraft.getInstance().options.keyMappings, supplier.get());
     }
     
 }
