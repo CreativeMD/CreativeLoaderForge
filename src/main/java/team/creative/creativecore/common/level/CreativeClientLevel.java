@@ -17,20 +17,24 @@ import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.WritableLevelData;
+import net.minecraftforge.client.model.data.ModelDataManager;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
-import team.creative.creativecore.client.render.level.IRenderChunkSupplier;
 
 public abstract class CreativeClientLevel extends CreativeLevel {
-    
-    public IRenderChunkSupplier renderChunkSupplier;
     
     final EntityTickList tickingEntities = new EntityTickList();
     private final TransientEntitySectionManager<Entity> entityStorage = new TransientEntitySectionManager<>(Entity.class, new CreativeClientLevel.EntityCallbacks());
     final List<AbstractClientPlayer> players = Lists.newArrayList();
     private final Map<String, MapItemSavedData> mapData = Maps.newHashMap();
+    private final ModelDataManager modelDataManager = new ModelDataManager(this);
     
     protected CreativeClientLevel(WritableLevelData worldInfo, int radius, Supplier<ProfilerFiller> supplier, boolean debug, long seed) {
         super(worldInfo, radius, supplier, true, debug, seed);
+    }
+    
+    @Override
+    public ModelDataManager getModelDataManager() {
+        return modelDataManager;
     }
     
     @Override
