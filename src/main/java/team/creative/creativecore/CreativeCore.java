@@ -1,7 +1,5 @@
 package team.creative.creativecore;
 
-import java.util.OptionalLong;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,18 +7,11 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -44,8 +35,8 @@ import team.creative.creativecore.common.config.sync.ConfigurationChangePacket;
 import team.creative.creativecore.common.config.sync.ConfigurationClientPacket;
 import team.creative.creativecore.common.config.sync.ConfigurationPacket;
 import team.creative.creativecore.common.gui.creator.GuiCreator;
-import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
 import team.creative.creativecore.common.gui.creator.GuiCreator.GuiCreatorBasic;
+import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
 import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.integration.GuiEventHandler;
@@ -69,9 +60,6 @@ public class CreativeCore {
     public static final CreativeNetwork NETWORK = new CreativeNetwork("1.0", LOGGER, new ResourceLocation(CreativeCore.MODID, "main"));
     public static ConfigEventHandler CONFIG_HANDLER;
     
-    public static final ResourceLocation FAKE_WORLD_LOCATION = new ResourceLocation(MODID, "fake");
-    public static Holder<DimensionType> FAKE_DIMENSION;
-    public static ResourceKey<Level> FAKE_DIMENSION_NAME = ResourceKey.create(Registry.DIMENSION_REGISTRY, FAKE_WORLD_LOCATION);
     public static MenuType<ContainerIntegration> GUI_CONTAINER;
     
     public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
@@ -126,9 +114,6 @@ public class CreativeCore {
         NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
         CONFIG_HANDLER = new ConfigEventHandler(FMLPaths.CONFIGDIR.get().toFile(), LOGGER);
         MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
-        FAKE_DIMENSION = Holder.direct(new DimensionType(OptionalLong
-                .empty(), true, false, false, false, 1, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, BuiltinDimensionTypes.OVERWORLD_EFFECTS, 0.0F, new DimensionType.MonsterSettings(false, false, UniformInt
-                        .of(0, 0), 0)));
         
         GuiLayerCreator.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
         GuiLayerCreator.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
