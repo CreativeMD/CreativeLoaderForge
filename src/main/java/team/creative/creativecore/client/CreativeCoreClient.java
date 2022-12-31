@@ -98,6 +98,7 @@ public class CreativeCoreClient {
     
     public static void init(FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(CreativeCoreClient.class);
+        MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
         ModLoadingContext.get()
                 .registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
         GuiStyle.reload();
@@ -132,7 +133,7 @@ public class CreativeCoreClient {
     
     @SubscribeEvent
     public static void clientTick(ClientTickEvent event) {
-        if (event.phase == Phase.START && Minecraft.getInstance().screen instanceof IScaleableGuiScreen)
-            ((IScaleableGuiScreen) Minecraft.getInstance().screen).clientTick();
+        if (event.phase == Phase.START && Minecraft.getInstance().screen instanceof IScaleableGuiScreen gui)
+            gui.clientTick();
     }
 }

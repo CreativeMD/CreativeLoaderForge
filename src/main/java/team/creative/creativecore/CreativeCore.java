@@ -39,7 +39,6 @@ import team.creative.creativecore.common.gui.creator.GuiCreator.GuiCreatorBasic;
 import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
 import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
-import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
 import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
@@ -113,7 +112,6 @@ public class CreativeCore {
         NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
         NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
         CONFIG_HANDLER = new ConfigEventHandler(FMLPaths.CONFIGDIR.get().toFile(), LOGGER);
-        MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
         
         GuiLayerCreator.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
         GuiLayerCreator.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
