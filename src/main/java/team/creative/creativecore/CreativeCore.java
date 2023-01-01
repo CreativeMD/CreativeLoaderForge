@@ -40,6 +40,7 @@ import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
 import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
+import team.creative.creativecore.common.gui.packet.ImmediateItemStackPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
 import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
@@ -111,6 +112,7 @@ public class CreativeCore {
         NETWORK.registerType(LayerOpenPacket.class, LayerOpenPacket::new);
         NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
         NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
+        NETWORK.registerType(ImmediateItemStackPacket.class, ImmediateItemStackPacket::new);
         CONFIG_HANDLER = new ConfigEventHandler(FMLPaths.CONFIGDIR.get().toFile(), LOGGER);
         
         GuiLayerCreator.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
