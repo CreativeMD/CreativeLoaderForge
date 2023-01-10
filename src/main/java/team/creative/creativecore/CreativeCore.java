@@ -28,21 +28,16 @@ import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.config.event.ConfigEventHandler;
 import team.creative.creativecore.common.config.gui.ClientSyncGuiLayer;
 import team.creative.creativecore.common.config.gui.ConfigGuiLayer;
-import team.creative.creativecore.common.config.gui.GuiInfoStackButton;
-import team.creative.creativecore.common.config.gui.GuiPlayerSelectorButton;
 import team.creative.creativecore.common.config.holder.CreativeConfigRegistry;
 import team.creative.creativecore.common.config.sync.ConfigurationChangePacket;
 import team.creative.creativecore.common.config.sync.ConfigurationClientPacket;
 import team.creative.creativecore.common.config.sync.ConfigurationPacket;
 import team.creative.creativecore.common.gui.creator.GuiCreator;
 import team.creative.creativecore.common.gui.creator.GuiCreator.GuiCreatorBasic;
-import team.creative.creativecore.common.gui.creator.GuiLayerCreator;
-import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
 import team.creative.creativecore.common.gui.packet.ImmediateItemStackPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
-import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
 import team.creative.creativecore.common.loader.ForgeLoaderUtils;
 import team.creative.creativecore.common.loader.ILoaderUtils;
@@ -109,15 +104,12 @@ public class CreativeCore {
         NETWORK.registerType(ConfigurationClientPacket.class, ConfigurationClientPacket::new);
         NETWORK.registerType(ConfigurationPacket.class, ConfigurationPacket::new);
         NETWORK.registerType(LayerClosePacket.class, LayerClosePacket::new);
-        NETWORK.registerType(LayerOpenPacket.class, LayerOpenPacket::new);
         NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
         NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
         NETWORK.registerType(ImmediateItemStackPacket.class, ImmediateItemStackPacket::new);
         CONFIG_HANDLER = new ConfigEventHandler(FMLPaths.CONFIGDIR.get().toFile(), LOGGER);
         
-        GuiLayerCreator.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
-        GuiLayerCreator.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
-        GuiLayerCreator.REGISTRY.register("dialog", GuiDialogHandler.DIALOG_HANDLER);
+        LOADER.loadCommon();
     }
     
     public static ICreativeLoader loader() {
