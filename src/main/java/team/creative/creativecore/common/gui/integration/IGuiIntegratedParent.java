@@ -54,6 +54,7 @@ public interface IGuiIntegratedParent extends IGuiParent {
             GuiLayer layer = layers.get(i);
             
             if (i == layers.size() - 1) {
+                RenderSystem.disableDepthTest();
                 if (layer.hasGrayBackground())
                     GuiRenderHelper.verticalGradientRect(matrixStack, 0, 0, width, height, -1072689136, -804253680);
                 if (screen instanceof AbstractContainerScreen)
