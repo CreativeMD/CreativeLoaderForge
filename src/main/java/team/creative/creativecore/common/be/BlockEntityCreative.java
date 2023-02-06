@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
 
 public abstract class BlockEntityCreative extends BlockEntity {
     
@@ -19,7 +20,7 @@ public abstract class BlockEntityCreative extends BlockEntity {
     public boolean isClient() {
         if (level != null)
             return level.isClientSide;
-        return false;
+        return EffectiveSide.get().isClient();
     }
     
     @Override
