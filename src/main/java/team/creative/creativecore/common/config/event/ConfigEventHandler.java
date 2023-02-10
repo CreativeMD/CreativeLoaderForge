@@ -29,7 +29,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -64,10 +64,10 @@ public class ConfigEventHandler {
     }
     
     @SubscribeEvent
-    public void playerLoggedIn(PlayerLoggedInEvent event) {
-        if (!event.getEntity().getServer().isSingleplayer() || !isOwner(event.getEntity().getServer())) {
-            CreativeCore.NETWORK.sendToClient(new ConfigurationClientPacket(CreativeConfigRegistry.ROOT), (ServerPlayer) event.getEntity());
-            CreativeCore.NETWORK.sendToClient(new ConfigurationPacket(CreativeConfigRegistry.ROOT, false), (ServerPlayer) event.getEntity());
+    public void playerLoggedIn(OnDatapackSyncEvent event) {
+        if (!event.getPlayer().getServer().isSingleplayer() || !isOwner(event.getPlayer().getServer())) {
+            CreativeCore.NETWORK.sendToClient(new ConfigurationClientPacket(CreativeConfigRegistry.ROOT), event.getPlayer());
+            CreativeCore.NETWORK.sendToClient(new ConfigurationPacket(CreativeConfigRegistry.ROOT, false), event.getPlayer());
         }
     }
     
