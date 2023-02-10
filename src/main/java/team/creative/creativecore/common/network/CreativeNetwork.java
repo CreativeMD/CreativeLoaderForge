@@ -53,8 +53,9 @@ public class CreativeNetwork {
             ctx.get().enqueueWork(() -> {
                 try {
                     message.execute(ctx.get().getSender() == null ? getClientPlayer() : ctx.get().getSender());
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
+                    throw e;
                 }
             });
             ctx.get().setPacketHandled(true);
