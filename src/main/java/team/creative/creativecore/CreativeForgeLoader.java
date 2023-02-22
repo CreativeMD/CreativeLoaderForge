@@ -29,6 +29,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
 import net.minecraftforge.network.NetworkConstants;
 import team.creative.creativecore.client.ClientLoader;
 import team.creative.creativecore.common.CommonLoader;
@@ -142,6 +143,11 @@ public class CreativeForgeLoader implements ICreativeLoader {
     @Override
     public void registerKeybind(Supplier<KeyMapping> supplier) {
         Minecraft.getInstance().options.keyMappings = ArrayUtils.add(Minecraft.getInstance().options.keyMappings, supplier.get());
+    }
+    
+    @Override
+    public Side getEffectiveSide() {
+        return EffectiveSide.get().isClient() ? Side.CLIENT : Side.SERVER;
     }
     
 }
