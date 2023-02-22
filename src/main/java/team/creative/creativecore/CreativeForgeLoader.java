@@ -90,16 +90,16 @@ public class CreativeForgeLoader implements ICreativeLoader {
     @Override
     public void registerLevelTick(Consumer<ServerLevel> consumer) {
         MinecraftForge.EVENT_BUS.addListener((LevelTickEvent x) -> {
-            if (x.phase == Phase.END)
-                consumer.accept((ServerLevel) x.level);
+            if (x.phase == Phase.END && x.level instanceof ServerLevel level)
+                consumer.accept(level);
         });
     }
     
     @Override
     public void registerLevelTickStart(Consumer<ServerLevel> consumer) {
         MinecraftForge.EVENT_BUS.addListener((LevelTickEvent x) -> {
-            if (x.phase == Phase.START)
-                consumer.accept((ServerLevel) x.level);
+            if (x.phase == Phase.START && x.level instanceof ServerLevel level)
+                consumer.accept(level);
         });
         
     }
