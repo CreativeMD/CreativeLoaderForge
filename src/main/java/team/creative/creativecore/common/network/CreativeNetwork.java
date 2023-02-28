@@ -89,10 +89,17 @@ public class CreativeNetwork {
     }
     
     public void sendToClientTracking(CreativePacket message, Entity entity) {
-        if (entity.level instanceof ISubLevel)
-            sendToClientTracking(message, ((ISubLevel) entity.level).getHolder());
+        if (entity.level instanceof ISubLevel sub)
+            sendToClientTracking(message, sub.getHolder());
         else
             this.instance.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), message);
+    }
+    
+    public void sendToClientTrackingAndSelf(CreativePacket message, Entity entity) {
+        if (entity.level instanceof ISubLevel sub)
+            sendToClientTrackingAndSelf(message, sub.getHolder());
+        else
+            this.instance.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), message);
     }
     
     public void sendToClientAll(MinecraftServer server, CreativePacket message) {
