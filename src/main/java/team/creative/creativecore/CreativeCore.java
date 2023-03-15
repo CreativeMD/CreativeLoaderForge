@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -76,7 +77,7 @@ public class CreativeCore {
         MinecraftForge.EVENT_BUS.addListener(this::server);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreativeCoreClient.load(FMLJavaModLoadingContext.get().getModEventBus()));
         
-        GUI_CONTAINER = new MenuType<>(null) {
+        GUI_CONTAINER = new MenuType<>(null, FeatureFlags.VANILLA_SET) {
             @Override
             public ContainerIntegration create(int windowId, Inventory playerInv, net.minecraft.network.FriendlyByteBuf extraData) {
                 return new ContainerIntegration(this, windowId, playerInv.player);
