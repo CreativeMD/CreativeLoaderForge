@@ -14,6 +14,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
@@ -73,11 +74,8 @@ public class CreativeForgeLoader implements ICreativeLoader {
     }
     
     @Override
-    public void registerClientRender(Runnable run) {
-        MinecraftForge.EVENT_BUS.addListener((RenderTickEvent x) -> {
-            if (x.phase == Phase.END)
-                run.run();
-        });
+    public void registerClientRenderGui(Runnable run) {
+        MinecraftForge.EVENT_BUS.addListener((RenderGuiEvent.Post x) -> run.run());
     }
     
     @Override
