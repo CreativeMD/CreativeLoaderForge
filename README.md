@@ -1,3 +1,5 @@
+# NOTE: Has been merged into CreativeCore
+
 # CreativeLoaderForge
 Responsible to make CreativeCore load/work on Forge.
 
@@ -6,5 +8,3 @@ Created by @FreezePhoenix: https://github.com/CreativeMD/CreativeLoaderFabric
 
 ## Setup
 https://github.com/CreativeMD/ForgeMods
-
-NOTE: Has been merged into CreativeCore
