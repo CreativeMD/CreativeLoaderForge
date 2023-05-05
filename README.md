@@ -6,3 +6,5 @@ Created by @FreezePhoenix: https://github.com/CreativeMD/CreativeLoaderFabric
 
 ## Setup
 https://github.com/CreativeMD/ForgeMods
+
+NOTE: Has been merged into CreativeCore
